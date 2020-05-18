@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
-  "private": false,
+  "private": true,
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^9.8.0",
