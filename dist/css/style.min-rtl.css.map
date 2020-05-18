@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.scss"],"names":[],"mappings":"AAIA,QACI,gBAAgB,CAChB,yBAAyB,CAAzB,wBAAyB","file":"style.min-rtl.css","sourcesContent":["@import \"./functions/all\";\r\n@import \"./mixins/all\";\r\n@import \"./variables/all\";\r\n\r\n.farzad {\r\n    margin-left:50px;\r\n    margin-inline-start: 50px;\r\n}"]}

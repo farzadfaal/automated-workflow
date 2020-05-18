@@ -1,0 +1,51 @@
+@font-face {
+	font-family: "iconfont";
+	src: url('../../dist/fonts/iconfont.eot');
+	src: url('../../dist/fonts/iconfont.eot?#iefix') format('eot'),
+		url('../../dist/fonts/iconfont.woff2') format('woff2'),
+		url('../../dist/fonts/iconfont.woff') format('woff'),
+		url('../../dist/fonts/iconfont.ttf') format('truetype'),
+		url('../../dist/fonts/iconfont.svg#iconfont') format('svg');
+}
+
+@mixin icon-styles {
+	font-family: "iconfont";
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	// speak: none; // only necessary if not using the private unicode range (firstGlyph option)
+	text-decoration: none;
+	text-transform: none;
+}
+
+%icon {
+	@include icon-styles;
+}
+
+@function icon-char($filename) {
+	$char: "";
+
+	@if $filename == add {
+		$char: "\E001";
+	}
+
+	@return $char;
+}
+
+@mixin icon($filename, $insert: before, $extend: true) {
+	&:#{$insert} {
+		@if $extend {
+			@extend %icon;
+		} @else {
+			@include icon-styles;
+		}
+		content: icon-char($filename);
+	}
+}
+
+.icon-add {
+	@include icon(add);
+}
+
