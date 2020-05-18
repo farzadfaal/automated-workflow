@@ -5,12 +5,11 @@ const plugins = require("gulp-load-plugins")({
 });
 
 const browserSync = plugins.browserSync.create();
-
 const pkg = require("./package.json");
 
 function sass() {
   plugins.fancyLog(
-    "-> Transpiling SASS Files: " + pkg.paths.dist.css + "style.css"
+    "Transpiling SASS Files -->" + pkg.paths.build.css + "style.css"
   );
   return gulp
     .src(pkg.paths.src.sass + pkg.vars.sassName)
@@ -30,7 +29,9 @@ function sass() {
 exports.sass = sass;
 
 function css() {
-  plugins.fancyLog("-> Building CSS");
+  plugins.fancyLog(
+    "Building CSS Files -->" + pkg.paths.dist.css + "style.min.css"
+  );
   return gulp
     .src(pkg.globs.distCss)
     .pipe(plugins.plumber({ errorHandler: true }))
@@ -48,6 +49,9 @@ function css() {
 exports.css = gulp.series(sass, css);
 
 function rtl() {
+  plugins.fancyLog(
+    "Building RTL Layout Files -->" + pkg.paths.dist.css + "style.min-rtl.css"
+  );
   return gulp
     .src(pkg.globs.distCss)
     .pipe(plugins.newer({ dest: pkg.paths.dist.css + pkg.vars.siteCssRtlName }))
@@ -66,6 +70,7 @@ function rtl() {
 exports.rtl = gulp.series(sass, rtl);
 
 function image() {
+  plugins.fancyLog("Minifying Images -->" + pkg.paths.dist.img);
   return gulp
     .src(pkg.paths.src.img + "**/*.{png,jpg,jpeg,gif,svg}")
     .pipe(plugins.image())
@@ -73,43 +78,38 @@ function image() {
 }
 exports.image = image;
 
-
 function iconfont() {
-    return gulp
-      .src(pkg.paths.src.icons + "**/*.svg", { base: pkg.paths.src.base })
-      .pipe(
-        plugins.iconfontCss({
-          fontName: "iconfont",
-          path: pkg.paths.src.sass + "mixins/_icons-template.scss",
-          targetPath: "../../" + pkg.paths.src.sass + "mixins/_icons.scss",
-          fontPath: "../." + pkg.paths.dist.fonts,
-        })
-      )
-      .pipe(
-        plugins.iconfont({
-          fontName: "iconfont", // required
-          prependUnicode: true, // recommended option
-          formats: ["ttf", "eot", "woff"], // default, 'woff2' and 'svg' are available
-        })
-      )
-      .on("glyphs", function (glyphs, options) {
-        console.log(glyphs, options);
+  plugins.fancyLog(
+    "Building Icon Fonts -->" + pkg.paths.dist.css + "style.min-rtl.css"
+  );
+  return gulp
+    .src(pkg.paths.src.icons + "**/*.svg", { base: pkg.paths.src.base })
+    .pipe(
+      plugins.iconfontCss({
+        fontName: "iconfont",
+        path: pkg.paths.src.sass + "mixins/_icons-template.scss",
+        targetPath: "../../" + pkg.paths.src.sass + "mixins/_icons.scss",
+        fontPath: "../." + pkg.paths.dist.fonts,
       })
-      .pipe(gulp.dest(pkg.paths.src.fonts));
-  }
-  exports.iconfont = iconfont;
-  
-  function font() {
-    return gulp
-      .src(pkg.paths.src.fonts + "**/*.{ttf,woff,svg,woff2,eot}")
-      .pipe(gulp.dest(pkg.paths.dist.fonts));
-  }
-  exports.font = gulp.series(iconfont, font)
-  
+    )
+    .pipe(plugins.iconfont({ fontName: "iconfont", prependUnicode: true }))
+    .pipe(gulp.dest(pkg.paths.src.fonts));
+}
+exports.iconfont = iconfont;
+
+function font() {
+  return gulp
+    .src(pkg.paths.src.fonts + "**/*.{ttf,woff,svg,woff2,eot}")
+    .pipe(gulp.dest(pkg.paths.dist.fonts));
+}
+exports.font = gulp.series(iconfont, font);
 
 function watch() {
   browserSync.init({ server: { baseDir: "./" } });
-  gulp.watch(["./src/scss/**/*.scss", "!./src/scss/mixins/_icons-template.scss"], sass);
+  gulp.watch(
+    ["./src/scss/**/*.scss", "!./src/scss/mixins/_icons-template.scss"],
+    sass
+  );
   gulp.watch("./build/css/**/*.css", css);
   gulp.watch("./**/*.html").on("change", browserSync.reload);
 }
