@@ -27,8 +27,20 @@
 @function icon-char($filename) {
 	$char: "";
 
-	@if $filename == add {
+	@if $filename == add copy 2 {
 		$char: "\E001";
+	}
+	@if $filename == add copy 3 {
+		$char: "\E002";
+	}
+	@if $filename == add copy {
+		$char: "\E003";
+	}
+	@if $filename == add {
+		$char: "\E004";
+	}
+	@if $filename == adidas {
+		$char: "\E005";
 	}
 
 	@return $char;
@@ -45,7 +57,19 @@
 	}
 }
 
+.icon-add copy 2 {
+	@include icon(add copy 2);
+}
+.icon-add copy 3 {
+	@include icon(add copy 3);
+}
+.icon-add copy {
+	@include icon(add copy);
+}
 .icon-add {
 	@include icon(add);
+}
+.icon-adidas {
+	@include icon(adidas);
 }
 

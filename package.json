@@ -5,12 +5,28 @@
   "main": "gulpfile.js",
   "private": true,
   "dependencies": {},
+  "scripts": {
+    "css": "gulp css",
+    "rtl": "gulp rtl",
+    "buildjs": "gulp buildjs",
+    "js": "gulp js",
+    "image": "gulp image",
+    "iconfont": "gulp iconfont",
+    "font": "gulp font",
+    "start": "gulp watch",
+    "watch": "gulp watch",
+    "build": "gulp"
+
+  },
   "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
     "autoprefixer": "^9.8.0",
     "browser-sync": "^2.26.7",
     "cssnano": "^4.1.10",
     "fancy-log": "^1.3.3",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-cached": "^1.1.1",
     "gulp-concat": "^2.6.1",
     "gulp-filter": "^6.0.0",
@@ -27,6 +43,7 @@
     "gulp-sass": "^4.1.0",
     "gulp-size": "^3.0.0",
     "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify-es": "^2.0.0",
     "node-sass": "^4.14.1"
   },
   "keywords": [],
@@ -70,6 +87,8 @@
     "cssName": "style.css",
     "siteCssName": "style.min.css",
     "siteRtlCssName": "style.min.rtl.css",
-    "siteIconFontSassName": "_iconfont.scss"
+    "siteIconFontSassName": "_iconfont.scss",
+    "siteJsName": "main.js",
+    "siteBundledJsName": "main.min.js"
   }
 }
